@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Esri + D3 Experiments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+        .btn-race{
+           width: 100%;
+        }
+
+        .sidebar-form{
+            padding-left: 15px;
+        }
+
+
+        /*Thematic Color Ramp*/
+        .q0-9 { fill:rgb(247,251,255);stroke: #000;stroke-linejoin: round; }
+        .q1-9 { fill:rgb(222,235,247);stroke: #000; stroke-linejoin: round;}
+        .q2-9 { fill:rgb(198,219,239);stroke: #000; stroke-linejoin: round;}
+        .q3-9 { fill:rgb(158,202,225);stroke: #000;stroke-linejoin: round; }
+        .q4-9 { fill:rgb(107,174,214);stroke: #000; stroke-linejoin: round;}
+        .q5-9 { fill:rgb(66,146,198);stroke: #000; stroke-linejoin: round;}
+        .q6-9 { fill:rgb(33,113,181);stroke: #000;stroke-linejoin: round; }
+        .q7-9 { fill:rgb(8,81,156);stroke: #000; stroke-linejoin: round;}
+        .q8-9 { fill:rgb(8,48,107);stroke: #000;stroke-linejoin: round; }
+
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <h3>Esri + D3 Experiments</h3>
+
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <form class="sidebar-form">
+                    <fieldset id="raceFieldSet">
+                        <legend>Census 2000 Population</legend>
+                        <label class="checkbox"><input type="checkbox" value="AMERI_ES"> American Indian and Alaska Native</label>
+                        <label class="checkbox"><input type="checkbox" value="ASIAN"> Asian</label>
+                        <label class="checkbox"><input type="checkbox" value="BLACK"> Black or African American</label>
+                        <label class="checkbox"><input type="checkbox" value="HAWN_PI"> Native Hawaiian and Pacific Islander</label>
+                        <label class="checkbox"><input type="checkbox" value="HISPANIC"> Hispanic or Latino</label>
+                        <label class="checkbox"><input type="checkbox" value="MULT_RACE"> Multi</label>
+                        <label class="checkbox"><input type="checkbox" value="OTHER"> Other</label>
+                        <label class="checkbox"><input type="checkbox" value="WHITE"> White</label>
+                    </fieldset>
+                </form>
+            </div>
+            <!--/.well -->
+        </div>
+        <!--/span-->
+        <div class="span7">
+            <div id="mainMap" class="hero-unit">
+                <h3 id="mapTitle">Map Title</h3>
+            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
+
+    <hr>
+
+
+
+</div>
+<!--/.fluid-container-->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/lib/jquery-2.0.0.min.js"></script>
+<script src="assets/lib/bootstrap.min.js"></script>
+<script src="assets/lib/d3.v3.min.js"></script>
+<script src="assets/js/main.js"></script>
+
+
+<script>
+
+    $(document).ready(function(){
+        initPopFieldCbxHandlers()
+        initMainMap('#mainMap');
+    });
+
+</script>
+
+</body>
+</html>

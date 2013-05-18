@@ -3,7 +3,8 @@
 var quantize = d3.scale.quantize()
     .domain([0,1])
     .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
-var states = null;
+var jsonStates = null;
+var statesSvg = null;
 
 function initMainMap(elementId){
     var width = 900;
@@ -14,35 +15,40 @@ function initMainMap(elementId){
         .attr('height', height);
 
     var projection = d3.geo.albersUsa();
-    states = svg.append('g')
+    statesSvg = svg.append('g')
         .attr('id', 'states');
-    states.attr('transform', 'scale(.7, .7)');
+    statesSvg.attr('transform', 'scale(.7, .7)');
 
-    d3.json('assets/json/us-esri-states.json', function(collection) {
-        json = collection;
-        states.selectAll('path')
-            .data(collection.features)
-        .enter().append('path')
-            .attr('d', d3.geo.path().projection(projection))
-            .attr("class", function(d) {return quantize(d.properties.AGE_65_UP/d.properties.POP2007); })
-    });
 
+    statesSvg.selectAll('path')
+            .data(jsonStates.features)
+            .enter().append('path')
+            .attr('d', d3.geo.path().projection(projection));
+        onPopFieldChange();
+}
+
+function loadJSONData(files,onDataLoad){
+    var q = queue(1);
+    files.forEach(function(f) { q.defer(d3.json,f); });
+    q.await(onDataLoad);
 }
 
  //Init Handlers for Population Fieldset Checkbox Changes
 function initPopFieldCbxHandlers(){
-        $('#raceFieldSet input').change(function () {
-            var popFields = [];
-            $('#raceFieldSet :checked').each(function() {
-                popFields.push($(this).val());
-            });
-            $('#mapTitle').text('Percentage ' + popFields)
-            styleMapForPercentPop(popFields)
-         });
+        $('#raceFieldSet input').change(onPopFieldChange);
+}
+
+function onPopFieldChange(){
+    var popFields = [];
+    $('#raceFieldSet :checked').each(function() {
+        popFields.push($(this).val());
+    });
+    $('#mapTitle').text('Percentage ' + popFields)
+    styleMapForPercentPop(popFields)
 }
 
 function styleMapForPercentPop(popFields){
-    states.selectAll('path')
+    statesSvg.selectAll('path')
             .attr("class", function(path) {
                 var sumPopFields = 0;
                 for (var i = 0; i < popFields.length; i++) {
@@ -52,6 +58,9 @@ function styleMapForPercentPop(popFields){
 }
 
 
+function log(obj){
+    console.log(obj)
+}
  /*            $.each($(this), function(key, element) {
                  $.each(element, function(key2, element2) {
                      alert('key: ' + key2 + '\n' + 'value: ' + element2);

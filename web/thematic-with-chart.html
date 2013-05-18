@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title>Esri + D3 Experiments</title>
@@ -90,6 +90,8 @@
             <div id="mainMap" class="hero-unit">
                 <h3 id="mapTitle">Map Title</h3>
             </div>
+            <div id="mainChart" class="hero-unit">
+            </div>
         </div>
         <!--/span-->
     </div>
@@ -123,8 +125,36 @@
         log(error)
         jsonStates = states;
         initMainMap('#mainMap');
+        initMainChart('#mainChart');
         initPopFieldCbxHandlers();
     }
+
+ function initMainChart(elementId){
+     var data = jsonStates.features;
+     var barWidth = 5;
+     var width = (barWidth + 10) * data.length;
+     var height = 200;
+
+     var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+     var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.properties.POP2007; })]).
+       rangeRound([0, height]);
+
+     // add the canvas to the DOM
+     var barDemo = d3.select(elementId).
+       append("svg").
+       attr("width", width).
+       attr("height", height);
+
+     barDemo.selectAll("rect").
+       data(data).
+       enter().
+       append("svg:rect").
+       attr("x", function(datum, index) { return x(index); }).
+       attr("y", function(datum) { return height - y(datum.properties.POP2007); }).
+       attr("height", function(datum) { return y(datum.properties.POP2007); }).
+       attr("width", barWidth).
+       attr("fill", "#2d578b");
+ }
 
 </script>
 
